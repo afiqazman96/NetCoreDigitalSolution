@@ -1,281 +1,150 @@
-<!doctype html>
-
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>POS — Touch / User Friendly Demo</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root{
-      --bg:#f6fbff; --card:#ffffff; --muted:#64748b; --accent:#4f46e5; --accent-2:#06b6d4; --success:#10b981; --danger:#ef4444; --glass: rgba(15,23,42,0.04);
-      --radius:14px; --shadow: 0 10px 30px rgba(15,23,42,0.08);
-      --max-width:1100px;
-    }
-    *{box-sizing:border-box}
-    body{font-family:'Poppins',system-ui,-apple-system,Segoe UI,Roboto,Arial; margin:0; background:linear-gradient(180deg,#f8fbff 0%, #eef6ff 100%); color:#0f172a}.wrap{max-width:var(--max-width); margin:28px auto; padding:18px}
-.topbar{display:flex; gap:16px; align-items:center; justify-content:space-between}
-.brand{display:flex; gap:12px; align-items:center}
-.logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2)); display:grid; place-items:center; color:white;font-weight:700; font-size:18px}
-.shop{font-weight:700; font-size:18px}
-.subtitle{font-size:13px; color:var(--muted)}
-
-.layout{display:grid; grid-template-columns: 1fr 360px; gap:18px; margin-top:18px}
-
-/* PRODUCT PANEL */
-.panel{background:var(--card); border-radius:var(--radius); box-shadow:var(--shadow); padding:16px}
-.searchbar{display:flex; gap:10px; align-items:center}
-.searchbar input{flex:1; padding:12px 14px; border-radius:12px; border:1px solid #e6eef8; background:var(--glass); outline:none}
-.filters{display:flex; gap:8px; margin-top:12px}
-.chip{padding:8px 12px; border-radius:999px; background:#f8fafc; border:1px solid #eef2ff; cursor:pointer; font-weight:600; color:var(--muted)}
-.chip.active{background:linear-gradient(90deg, rgba(79,70,229,0.1), rgba(6,182,212,0.06)); color:var(--accent)}
-
-.grid-products{display:grid; gap:12px; margin-top:14px; grid-template-columns:repeat(auto-fill,minmax(160px,1fr))}
-.product{background:linear-gradient(180deg, #fff 0%, #fbfdff 100%); border-radius:12px; padding:12px; display:flex; flex-direction:column; gap:10px; border:1px solid #f1f5f9}
-.pimg{height:110px; border-radius:10px; background:#eef2ff; display:grid; place-items:center; overflow:hidden}
-.pimg img{width:100%; height:100%; object-fit:cover}
-.pname{font-weight:600}
-.pmeta{display:flex; justify-content:space-between; align-items:center}
-.addbtn{padding:8px 12px; border-radius:10px; background:linear-gradient(90deg,var(--accent),var(--accent-2)); color:white; border:none; cursor:pointer; font-weight:700}
-
-/* CART */
-.cart-header{display:flex; gap:10px; align-items:center; justify-content:space-between}
-.cart-list{margin-top:12px; max-height:420px; overflow:auto; padding-right:6px}
-.cart-item{display:flex; gap:10px; align-items:center; padding:10px; border-radius:10px; background:#fbfdff; border:1px solid #eef2ff; margin-bottom:8px}
-.ci-thumb{width:56px; height:56px; border-radius:8px; background:#f1f5f9; display:grid; place-items:center; overflow:hidden}
-.ci-body{flex:1}
-.ci-name{font-weight:600}
-.ci-qty{display:flex; align-items:center; gap:6px; margin-top:6px}
-.qty-btn{width:30px; height:30px; border-radius:8px; border:1px solid #e6eef8; background:white; display:grid; place-items:center; cursor:pointer}
-.price{font-weight:700}
-
-.summary{margin-top:12px; padding:12px; border-radius:12px; background:linear-gradient(180deg, #fff 0%, #fbfdff 100%); border:1px solid #eef2ff}
-.summary .line{display:flex; justify-content:space-between; margin-bottom:8px}
-.checkout-btn{width:100%; padding:12px; border-radius:12px; border:none; background:linear-gradient(90deg,var(--accent),var(--accent-2)); color:white; font-weight:800; cursor:pointer}
-.secondary{background:#f8fafc; color:var(--muted); font-weight:700}
-
-/* Modal */
-.modal{position:fixed; inset:0; display:none; align-items:center; justify-content:center; background:rgba(2,6,23,0.45); z-index:60}
-.modal.open{display:flex}
-.dialog{width:680px; max-width:94vw; background:var(--card); border-radius:14px; padding:18px; box-shadow:var(--shadow)}
-.pay-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px}
-.pay-option{padding:12px; border-radius:12px; border:1px dashed #eef2ff; text-align:center; cursor:pointer}
-.pay-option.active{border-style:solid; border-color:var(--accent-2); box-shadow:0 6px 18px rgba(6,182,212,0.08)}
-
-/* Responsive */
-@media(max-width:980px){ .layout{grid-template-columns:1fr} .cart-list{max-height:240px} }
-
-/* small helpers */
-.muted{color:var(--muted)}
-.right{text-align:right}
-
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>NetCore Digital Solutions</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="wrap">
-    <div class="topbar">
-      <div class="brand">
-        <div class="logo">POS</div>
-        <div>
-          <div class="shop">Cafe</div>
-          <div class="subtitle">Touch-friendly POS — Demo for my project</div>
-        </div>
-      </div>
-      <div>
-        <button class="chip" id="btnSeed">Seed Demo Data</button>
-        <button class="chip" id="btnClear">Clear All</button>
-      </div>
-    </div><div class="layout">
-  <!-- Products -->
-  <div class="panel">
-    <div class="searchbar">
-      <input id="search" placeholder="Search product name or SKU..." />
-      <button class="chip" id="showAll">All</button>
-    </div>
-    <div class="filters" id="filters">
-      <div class="chip active" data-filter="all">All</div>
-      <div class="chip" data-filter="coffee">Coffee</div>
-      <div class="chip" data-filter="drink">Drinks</div>
-      <div class="chip" data-filter="food">Food</div>
-    </div>
-    <div class="grid-products" id="products"></div>
+
+<header class="header">
+  <div class="container nav">
+    <div class="brand">NetCore<span>Digital</span></div>
+    <nav>
+      <a href="#services">Services</a>
+      <a href="#packages">Packages</a>
+      <a href="#about">About</a>
+      <a href="#contact" class="btn-outline">Contact</a>
+    </nav>
   </div>
+</header>
 
-  <!-- Cart -->
-  <div class="panel">
-    <div class="cart-header">
-      <div>
-        <div style="font-weight:800">Cart</div>
-        <div class="muted">Tap products to add. Swipe on mobile to remove.</div>
-      </div>
-      <div class="muted" id="itemCount">0 items</div>
+<section class="hero">
+  <div class="hero-overlay"></div>
+  <div class="container hero-grid">
+    <div class="hero-text">
+      <h1>Professional IT Solutions<br>for Modern Businesses</h1>
+      <p>
+        NetCore Digital Solutions provides expert website development and
+        networking setup to help businesses operate efficiently and grow.
+      </p>
+      <a href="#contact" class="btn-primary">Request Consultation</a>
     </div>
-
-    <div class="cart-list" id="cartList"></div>
-
-    <div class="summary">
-      <div class="line"><div class="muted">Subtotal</div><div id="subtotal">RM0.00</div></div>
-      <div class="line"><div class="muted">Discount</div><div id="discountDisplay">0%</div></div>
-      <div class="line"><div class="muted">Tax (6%)</div><div id="taxAmt">RM0.00</div></div>
-      <div class="line" style="font-size:18px;font-weight:800"><div>Total</div><div id="totalAmt">RM0.00</div></div>
-      <div style="margin-top:12px">
-        <button class="checkout-btn" id="checkout">Checkout</button>
-      </div>
-      <div style="margin-top:8px; display:flex; gap:8px">
-        <button class="chip secondary" id="btnClearCart">Clear Cart</button>
-        <button class="chip" id="btnExport">Export TX</button>
-      </div>
+    <div class="hero-illustration">
+      <!-- Placeholder image / illustration -->
+      <div class="hero-img">💻📡</div>
     </div>
   </div>
-</div>
+</section>
 
-  </div>  <!-- Checkout Modal -->  <div class="modal" id="modal">
-    <div class="dialog">
-      <h3>Checkout</h3>
-      <p class="muted">Pilih jenis pembayaran dan masukkan jumlah diterima.</p>
-      <div style="margin-top:12px" class="pay-grid">
-        <div>
-          <div class="pay-option active" data-pay="cash">Cash</div>
-          <div style="height:12px"></div>
-          <div class="pay-option" data-pay="card">Card</div>
-        </div>
-        <div>
-          <div style="display:flex; flex-direction:column; gap:8px">
-            <input id="payAmount" class="input" placeholder="Amount received (RM)" style="padding:12px 14px; border-radius:10px; border:1px solid #eef2ff" />
-            <div style="display:flex; gap:8px">
-              <button class="chip" id="quick50">RM50</button>
-              <button class="chip" id="quick100">RM100</button>
-              <button class="chip" id="quickExact">Exact</button>
-            </div>
-            <div style="margin-top:8px; display:flex; justify-content:space-between; align-items:center">
-              <div class="muted">Change</div>
-              <div style="font-weight:800" id="changeAmt">RM0.00</div>
-            </div>
-            <div style="margin-top:12px; display:flex; gap:8px">
-              <button class="checkout-btn" id="confirmPay">Confirm Payment</button>
-              <button class="chip secondary" id="cancelPay">Cancel</button>
-            </div>
-          </div>
-        </div>
+<section id="services" class="section">
+  <div class="container">
+    <h2 class="section-title">Our Services</h2>
+    <div class="service-grid">
+      <div class="service-card">
+        <div class="icon">🏢</div>
+        <h3>Corporate Website</h3>
+        <p>
+          Professional websites for SMEs, fully responsive, easy to maintain and scalable.
+        </p>
+      </div>
+
+      <div class="service-card">
+        <div class="icon">🛠️</div>
+        <h3>Custom Website</h3>
+        <p>
+          Tailored websites with advanced features and custom designs for growing enterprises.
+        </p>
+      </div>
+
+      <div class="service-card">
+        <div class="icon">📹</div>
+        <h3>Networking & CCTV</h3>
+        <p>
+          Secure networking, CCTV setup, and IT infrastructure to ensure smooth operations.
+        </p>
       </div>
     </div>
-  </div>  <script>
-    // Simple POS UI logic
-    const currency = 'RM';
-    const taxRate = 6; // percent
-    let products = [];
-    let cart = [];
+  </div>
+</section>
 
-    const el = id => document.getElementById(id);
-    const q = sel => document.querySelector(sel);
+<section id="packages" class="section alt">
+  <div class="container">
+    <h2 class="section-title">Service Packages</h2>
+    <p class="section-sub">
+      Tailored solutions for different business needs. Contact us for quotation.
+    </p>
+    <div class="package-grid">
+      <div class="package-card package-sme">
+        <div class="icon">🏢</div>
+        <h4>SME Package</h4>
+        <ul>
+          <li>Small corporate website / landing page</li>
+          <li>Basic networking setup</li>
+          <li>Initial IT consultation</li>
+        </ul>
+      </div>
 
-    const fmt = (n) => currency + Number(n||0).toFixed(2);
+      <div class="package-card package-corp">
+        <div class="icon">🛠️</div>
+        <h4>Corporate Package</h4>
+        <ul>
+          <li>Custom corporate website with features</li>
+          <li>Advanced networking & CCTV</li>
+          <li>Ongoing IT support</li>
+        </ul>
+      </div>
 
-    function seed(){
-      products = [
-        {id:'p1', sku:'CF001', name:'Americano', price:7.5, cat:'coffee', img:'https://images.unsplash.com/photo-1509042239860-f550ce710b93?q=80&w=800&auto=format&fit=crop'},
-        {id:'p2', sku:'LT002', name:'Café Latte', price:9.0, cat:'coffee', img:'https://images.unsplash.com/photo-1504754524776-8f4f37790ca0?q=80&w=800&auto=format&fit=crop'},
-        {id:'p3', sku:'TK003', name:'Green Tea', price:5.5, cat:'drink', img:'https://images.unsplash.com/photo-1517701604599-bb29b565090c?q=80&w=800&auto=format&fit=crop'},
-        {id:'p4', sku:'CK004', name:'Blueberry Muffin', price:6.0, cat:'food', img:'https://images.unsplash.com/photo-1475855581690-80accde3ae2b?q=80&w=800&auto=format&fit=crop'},
-        {id:'p5', sku:'SN005', name:'Chicken Sandwich', price:12.0, cat:'food', img:'https://images.unsplash.com/photo-1550317138-10000687a72b?q=80&w=800&auto=format&fit=crop'},
-        {id:'p6', sku:'JS006', name:'Orange Juice', price:8.0, cat:'drink', img:'https://images.unsplash.com/photo-1570158268183-d296b2892211?q=80&w=800&auto=format&fit=crop'}
-      ];
-      renderProducts();
-    }
+      <div class="package-card package-network">
+        <div class="icon">📹</div>
+        <h4>Networking Setup</h4>
+        <ul>
+          <li>Office/shop network configuration</li>
+          <li>CCTV installation & configuration</li>
+          <li>Maintenance and troubleshooting</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
 
-    function renderProducts(filter='all'){
-      const wrap = el('products'); wrap.innerHTML='';
-      const qv = el('search').value.toLowerCase();
-      products.filter(p=>{
-        if(filter!=='all' && p.cat !== filter) return false;
-        if(qv && !(p.name.toLowerCase().includes(qv) || p.sku.toLowerCase().includes(qv))) return false;
-        return true;
-      }).forEach(p=>{
-        const d = document.createElement('div'); d.className='product';
-        d.innerHTML = `
-          <div class="pimg"><img src="${p.img}" alt=""></div>
-          <div style="display:flex; justify-content:space-between; align-items:center">
-            <div style="flex:1"><div class="pname">${p.name}</div><div class="muted">${p.sku}</div></div>
-            <div style="text-align:right"><div class="muted">${fmt(p.price)}</div><button class="addbtn" data-id="${p.id}">Add</button></div>
-          </div>
-        `;
-        wrap.appendChild(d);
+<section id="about" class="section dark">
+  <div class="container narrow">
+    <h2 class="section-title light">About NetCore Digital Solutions</h2>
+    <p class="about-text">
+      NetCore Digital Solutions team has over
+      <span class="highlight-experience">10 years of experience</span> in website development and networking setup. We help SMEs adopt professional IT solutions efficiently and reliably.
+    </p>
+  </div>
+</section>
+
+<section id="contact" class="section">
+  <div class="container center">
+    <h2 class="section-title">Start Your Project With Confidence</h2>
+    <p class="contact-text">
+      Talk to us about your requirements and we’ll propose the right solution.
+    </p>
+    <a href="#" class="btn-primary large">Contact Us</a>
+    <div class="floating-whatsapp">💬</div>
+  </div>
+</section>
+
+<footer class="footer">
+  <p>© 2025 NetCore Digital Solutions. All rights reserved.</p>
+</footer>
+
+<script>
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      document.querySelector(this.getAttribute('href')).scrollIntoView({
+        behavior: 'smooth'
       });
-    }
-
-    function addToCart(id){
-      const p = products.find(x=>x.id===id); if(!p) return;
-      const row = cart.find(r=>r.id===id);
-      if(row) row.qty++; else cart.push({id:p.id, name:p.name, price:p.price, qty:1, img:p.img});
-      renderCart();
-    }
-
-    function renderCart(){
-      const wrap = el('cartList'); wrap.innerHTML='';
-      cart.forEach(item=>{
-        const d = document.createElement('div'); d.className='cart-item';
-        d.innerHTML = `
-          <div class="ci-thumb"><img src="${item.img}" style="width:100%; height:100%; object-fit:cover"></div>
-          <div class="ci-body">
-            <div class="ci-name">${item.name}</div>
-            <div class="ci-qty">
-              <button class="qty-btn" data-dec="${item.id}">-</button>
-              <div class="muted">${item.qty}</div>
-              <button class="qty-btn" data-inc="${item.id}">+</button>
-            </div>
-          </div>
-          <div style="text-align:right"><div class="price">${fmt(item.price*item.qty)}</div><div class="muted">${fmt(item.price)} each</div></div>
-        `;
-        wrap.appendChild(d);
-      });
-      el('itemCount').textContent = `${cart.reduce((s,i)=>s+i.qty,0)} items`;
-      updateSummary();
-    }
-
-    function updateSummary(){
-      const subtotal = cart.reduce((s,i)=> s + i.price*i.qty, 0);
-      const discount = 0; // simple demo
-      const after = subtotal * (1 - discount/100);
-      const tax = after * (taxRate/100);
-      const total = after + tax;
-      el('subtotal').textContent = fmt(subtotal);
-      el('taxAmt').textContent = fmt(tax);
-      el('totalAmt').textContent = fmt(total);
-      el('discountDisplay').textContent = discount + '%';
-    }
-
-    // events
-    document.addEventListener('click', (e)=>{
-      if(e.target.matches('.addbtn')) addToCart(e.target.dataset.id);
-      if(e.target.matches('[data-inc]')){ const id=e.target.dataset.inc; const r=cart.find(x=>x.id===id); if(r){r.qty++; renderCart();} }
-      if(e.target.matches('[data-dec]')){ const id=e.target.dataset.dec; const r=cart.find(x=>x.id===id); if(r){ r.qty--; if(r.qty<=0) cart=cart.filter(x=>x.id!==id); renderCart(); } }
-      if(e.target.id === 'btnSeed') seed();
-      if(e.target.id === 'btnClear') { if(confirm('Clear products and cart?')){ products=[]; cart=[]; renderProducts(); renderCart(); } }
-      if(e.target.id === 'btnClearCart') { if(confirm('Clear cart?')){ cart=[]; renderCart(); } }
-      if(e.target.id === 'checkout') openModal();
-      if(e.target.id === 'cancelPay') closeModal();
-      if(e.target.id === 'confirmPay') confirmPayment();
-      if(e.target.matches('.pay-option')){ document.querySelectorAll('.pay-option').forEach(n=>n.classList.remove('active')); e.target.classList.add('active'); }
-      if(e.target.id === 'btnExport') exportTx();
-      if(e.target.id === 'showAll') { document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active')); document.querySelector('.chip[data-filter="all"]').classList.add('active'); renderProducts('all'); }
-      if(e.target.classList.contains('chip') && e.target.dataset.filter){ document.querySelectorAll('.chip').forEach(c=>c.classList.remove('active')); e.target.classList.add('active'); renderProducts(e.target.dataset.filter);} 
-      if(e.target.id === 'quick50') el('payAmount').value = 50; if(e.target.id === 'quick100') el('payAmount').value = 100; if(e.target.id === 'quickExact') el('payAmount').value = Number(el('totalAmt').textContent.replace(currency,''));
     });
+  });
+</script>
 
-    el('search').addEventListener('input', ()=> renderProducts());
-
-    // modal
-    function openModal(){ if(cart.length===0){ alert('Cart kosong'); return; } el('modal').classList.add('open'); el('payAmount').value = '' ; el('changeAmt').textContent = fmt(0); }
-    function closeModal(){ el('modal').classList.remove('open'); }
-    function confirmPayment(){ const amt = Number(el('payAmount').value||0); const total = Number(el('totalAmt').textContent.replace(currency,'')); if(amt < total){ alert('Amount received kurang'); return; } const change = amt - total; el('changeAmt').textContent = fmt(change); saveTransaction(); closeModal(); cart=[]; renderCart(); alert('Payment successful'); }
-
-    // transactions export stub
-    let transactions = [];
-    function saveTransaction(){ const tx = {id: 'tx'+Date.now(), date: new Date().toISOString(), items: cart.map(x=>({...x})), total: Number(el('totalAmt').textContent.replace(currency,'')) }; transactions.push(tx); }
-    function exportTx(){ if(transactions.length===0) return alert('No transactions'); const rows = [['id','date','total']].concat(transactions.map(t=>[t.id,t.date,t.total])); const csv = rows.map(r=>r.join(',')).join('\n'); const blob = new Blob([csv], {type:'text/csv'}); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href=url; a.download='transactions.csv'; a.click(); URL.revokeObjectURL(url); }
-
-    // init
-    seed();
-  </script></body>
+</body>
 </html>
-
